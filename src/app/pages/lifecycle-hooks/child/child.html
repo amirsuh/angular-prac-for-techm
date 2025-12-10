@@ -1,0 +1,12 @@
+ <div style="border: 2px solid blue; padding: 20px; margin: 10px;">
+      <h3>Child Component</h3>
+      <p>Input Name: {{ name }}</p>
+      <p>Input Count: {{ count }}</p>
+
+      <div #viewChild>ViewChild Content</div>
+
+      <ng-content></ng-content>
+
+      <p>Logs: {{ logs.length }} lifecycle events</p>
+      <button (click)="logs = []">Clear Logs</button>
+    </div>

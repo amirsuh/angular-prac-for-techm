@@ -4,6 +4,7 @@ import { Main } from './pages/main/main';
 import { Debounceusingrxjs } from './pages/rxjs/debounceusingrxjs/debounceusingrxjs';
 import { Domsanitize } from './pages/htmlcontentsafety/domsanitize/domsanitize';
 import { Dompurify } from './pages/htmlcontentsafety/dompurify/dompurify';
+import { Lifecycle } from './pages/lifecycle-hooks/lifecycle/lifecycle';
 
 export const routes: Routes = [
   {
@@ -27,6 +28,10 @@ export const routes: Routes = [
     {
     path: 'dompurify',
     component: Dompurify,
+
+  },{
+    path: 'lifecycle',
+    component: Lifecycle,
 
   },
   {

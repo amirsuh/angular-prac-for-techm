@@ -1,0 +1,8 @@
+<h2>Parent Lifecycle Demo</h2>
+    <button (click)="toggleChild()">Toggle Child</button>
+    <p>Count: {{ count }}</p>
+    <button (click)="increment()">Increment</button>
+
+    @if (showChild) {
+      <app-child [name]="childName" [count]="count"></app-child>
+    }
