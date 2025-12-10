@@ -1,0 +1,44 @@
+<div [innerHTML]="trustedHtmlContent"></div>
+<h2>Angular XSS Security & DomSanitizer Demo</h2>
+
+<h3>1. Unsafe HTML (Angular blocks it automatically)</h3>
+<p>
+  Angular escapes harmful content, so the script won't execute:
+</p>
+<div [innerHTML]="safeByAngular"></div>
+
+
+<h3>2. Using DomSanitizer (Dangerous if used incorrectly)</h3>
+<p>
+  <strong>WARNING:</strong> This bypasses Angular’s security.
+</p>
+<div [innerHTML]="sanitizedHtml"></div>
+<h2>Secure User Input Example (XSS Safe)</h2>
+
+<form>
+  <label>Enter some text (HTML allowed):</label>
+  <textarea
+    rows="5"
+    class="form-control"
+    #userInputs
+    (input)="onInputChange(userInputs.value)">
+  </textarea>
+
+  <!-- <textarea
+  #userInput
+  (input)="onInputChange(userInput.value)"
+  rows="5">
+</textarea> -->
+
+<div [innerHTML]="sanitizedOutput"></div>
+</form>
+
+<hr>
+
+<h3>Sanitized Output:</h3>
+<p>The content below is cleaned by Angular and cannot run scripts:</p>
+
+<div
+  class="output-box"
+  [innerHTML]="sanitizedOutput">
+</div>
