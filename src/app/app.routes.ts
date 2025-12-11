@@ -5,6 +5,8 @@ import { Debounceusingrxjs } from './pages/rxjs/debounceusingrxjs/debounceusingr
 import { Domsanitize } from './pages/htmlcontentsafety/domsanitize/domsanitize';
 import { Dompurify } from './pages/htmlcontentsafety/dompurify/dompurify';
 import { Lifecycle } from './pages/lifecycle-hooks/lifecycle/lifecycle';
+import { Compneedtooptimize } from './pages/rxjs/compneedtooptimize/compneedtooptimize';
+import { Compneedtooptimized } from './pages/rxjs/compneedtooptimized/compneedtooptimized';
 
 export const routes: Routes = [
   {
@@ -32,6 +34,16 @@ export const routes: Routes = [
   },{
     path: 'lifecycle',
     component: Lifecycle,
+
+  },
+  {
+    path: 'rxjsoptimise',
+    component: Compneedtooptimize,
+
+  },
+  {
+    path: 'rxjsoptimised',
+    component: Compneedtooptimized,
 
   },
   {

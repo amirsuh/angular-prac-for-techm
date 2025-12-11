@@ -1,0 +1,68 @@
+ <h2>Post List</h2>
+
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Post Title</th>
+          <th>User Name</th>
+          <th>Category Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(post of posts;track post.id){
+          <tr>
+            <td>{{ post.title }}</td>
+            <td>{{ post.userName }}</td>
+            <td>{{ post.categoryName }}</td>
+
+            <td><button (click)="viewPost(post)">View</button></td>
+          </tr>
+        }
+        <!-- <ng-container *ngFor="let post of posts">
+          <tr>
+            <td>{{ post.title }}</td>
+            <td>{{ post.userName }}</td>
+            <td>{{ post.categoryName }}</td>
+
+            <td><button (click)="viewPost(post)">View</button></td>
+          </tr>
+        </ng-container> -->
+      </tbody>
+    </table>
+@if(selectedPost){
+  <div class="selected-post">
+        <h2>Post Details</h2>
+        <p><b>Post Title:</b> {{ selectedPost.title }}</p>
+
+        <p><b>Department:</b> {{ selectedPost.departmentName }}</p>
+
+        <p><b>Category:</b> {{ selectedPost.categoryName }}</p>
+
+        <p><b>Created By:</b> {{ selectedPost.userName }}</p>
+      </div>
+}
+    <!-- <ng-container *ngIf="selectedPost">
+      <div class="selected-post">
+        <h2>Post Details</h2>
+        <p><b>Post Title:</b> {{ selectedPost.title }}</p>
+
+        <p><b>Department:</b> {{ selectedPost.departmentName }}</p>
+
+        <p><b>Category:</b> {{ selectedPost.categoryName }}</p>
+
+        <p><b>Created By:</b> {{ selectedPost.userName }}</p>
+      </div>
+    </ng-container> -->
+
+    <!-- <ng-template #postTemplate>
+      <tr>
+        <td>{{ post.title }}</td>
+        <td>{{ post.userName }}</td>
+        <td>{{ post.categoryName }}</td>
+
+        <td><button (click)="viewPost(post.id)">View</button></td>
+      </tr>
+    </ng-template> -->
+
+
+    <!-- <event-optimize /> -->
