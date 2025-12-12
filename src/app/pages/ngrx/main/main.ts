@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { User } from "../user/user";
 import { Admin } from "../admin/admin";
 import { select, Store } from '@ngrx/store';
-import { IAppState } from '../../store/store';
 import { Observable } from 'rxjs';
-import { decrement, increment } from '../../store/counter.action';
 import { AsyncPipe } from '@angular/common';
+import { IAppState } from '../../../store/store';
+import { decrement, increment } from '../../../store/counter.action';
 
 @Component({
   selector: 'app-main',

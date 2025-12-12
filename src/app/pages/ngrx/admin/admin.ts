@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { IAppState } from '../../store/store';
 import { AsyncPipe } from '@angular/common';
+import { IAppState } from '../../../store/store';
 
 @Component({
   selector: 'app-admin',
