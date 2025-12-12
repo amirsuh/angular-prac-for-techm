@@ -7,6 +7,7 @@ import { Lifecycle } from './pages/lifecycle-hooks/lifecycle/lifecycle';
 import { Compneedtooptimize } from './pages/rxjs/compneedtooptimize/compneedtooptimize';
 import { Compneedtooptimized } from './pages/rxjs/compneedtooptimized/compneedtooptimized';
 import { Main } from './pages/ngrx/main/main';
+import { Hparent } from './pages/lifecycle-hooks/new-hook-eg/hparent/hparent';
 
 export const routes: Routes = [
   {
@@ -33,7 +34,7 @@ export const routes: Routes = [
 
   },{
     path: 'lifecycle',
-    component: Lifecycle,
+    component: Hparent,
 
   },
   {

@@ -1,0 +1,4 @@
+<h1>Parent: {{ parentData }}</h1>
+    <button (click)="updateData()">Update Child Data</button>
+    <app-hchild [childData]="parentData" [count]="parentCount"></app-hchild>
+    <button (click)="clikcCount()">Increase Count</button>

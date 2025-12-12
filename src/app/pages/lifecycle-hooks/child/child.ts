@@ -1,27 +1,52 @@
-import { Component, Input, OnChanges, OnInit, DoCheck,
-         AfterContentInit, AfterContentChecked, AfterViewInit,
-         AfterViewChecked, OnDestroy } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  DoCheck,
+  AfterContentInit,
+  AfterContentChecked,
+  AfterViewInit,
+  AfterViewChecked,
+  OnDestroy,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 @Component({
   selector: 'app-child',
   imports: [],
   templateUrl: './child.html',
   styleUrl: './child.scss',
 })
-export class Child implements OnChanges, OnInit, DoCheck,
-                                     AfterContentInit, AfterContentChecked,
-                                     AfterViewInit, AfterViewChecked, OnDestroy{
-@Input() name: string = '';
+export class Child
+  implements
+    OnChanges,
+    OnInit,
+    DoCheck,
+    AfterContentInit,
+    AfterContentChecked,
+    AfterViewInit,
+    AfterViewChecked,
+    OnDestroy
+{
+  @Input() name: string = '';
   @Input() count: number = 0;
+  @Input() childData: string = '';
+  @ViewChild('viewElement') viewElement!: ElementRef;
+  private timer: any;
 
   logs: string[] = [];
   private viewChild: any;
 
   ngOnChanges(changes: any) {
     this.logs.push(`1. ngOnChanges: ${JSON.stringify(changes)}`);
+        console.log('2. ngOnChanges - Input changed:', this.childData);
+
   }
 
   ngOnInit() {
     this.logs.push('2. ngOnInit: Initial setup complete');
+    this.startTimer();
   }
 
   ngDoCheck() {
@@ -46,5 +71,9 @@ export class Child implements OnChanges, OnInit, DoCheck,
 
   ngOnDestroy() {
     this.logs.push('8. ngOnDestroy: Cleanup time');
+  }
+
+   private startTimer() {
+    this.timer = setInterval(() => console.log('Timer tick'), 5000);
   }
 }
