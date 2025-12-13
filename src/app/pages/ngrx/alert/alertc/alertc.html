@@ -1,0 +1,4 @@
+<div *ngIf="alert$ | async as msg" class="alert">
+      {{ msg }}
+      <button (click)="close()">X</button>
+    </div>

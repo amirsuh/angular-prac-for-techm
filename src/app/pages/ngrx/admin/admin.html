@@ -1,2 +1,35 @@
 <p>admin works!</p>
 {{count$ | async}}
+<button (click)="callalert()"></button>
+
+
+
+<button (click)="triggerAlert()">Show Alert</button>
+
+<div  class="alert" >
+  <!-- <strong>{{ type$ | async | uppercase }}:</strong> -->
+  {{ message$ | async }}
+  <button (click)="closeAlert()">✖</button>
+</div>
+<h2>Hover Color Directive (1 Input)</h2>
+
+<p [hoverColors]="'lightgreen'">
+  Hover over me!
+</p>
+
+<p [hoverColors]="'#ffcccc'">
+  Another hover example!
+</p>
+
+
+<h2>Custom Hover Color Directive Demo</h2>
+
+<p [hoverColor]="'lightgreen'" [defaultColor]="'transparent'">
+  {{ message }}
+</p>
+
+<p [hoverColor]="'#ffdddd'" [defaultColor]="'white'">
+  Another hover example
+</p>
+
+<button (click)="getCacheUserId(1)"></button>

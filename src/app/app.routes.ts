@@ -8,11 +8,16 @@ import { Compneedtooptimize } from './pages/rxjs/compneedtooptimize/compneedtoop
 import { Compneedtooptimized } from './pages/rxjs/compneedtooptimized/compneedtooptimized';
 import { Main } from './pages/ngrx/main/main';
 import { Hparent } from './pages/lifecycle-hooks/new-hook-eg/hparent/hparent';
+import { CallHijri } from './pages/hijri/call-hijri/call-hijri';
 
 export const routes: Routes = [
   {
     path: 'dashboard',
     component: Dashboard,
+  },
+  {
+    path: 'hijri',
+    component: CallHijri
   },
   {
     path: 'ngrx',
@@ -50,5 +55,5 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent:() => import('./pages/ngrx/admin/admin').then(m=>m.Admin)
-  },
+  }
 ];

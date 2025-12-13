@@ -1,0 +1,46 @@
+<div fxLayout="row" fxLayout.lt-lg="column" fxLayoutGap.gt-lg="16px" *ngIf="errorMessages">
+                        <div class="custom-form-item second-type" fxFlex="50" [ngClass]="{ 'is-invalid': (submitted || travelerData.get('issueDate')?.touched) && travelerData.get('issueDate')?.errors}"
+                        [id]="'issueDate'">
+                          <app-hijri-comp
+                            [fieldId]="'issue-date'"
+                            [fieldLabel]="rendering?.fields?.issueDateLabel?.value"
+                            [setFormGroupName]="travelerData"
+                            [setFormControlName]="'issueDate'"
+                            [startDate]="''"
+                            [endDate]="maxIssueDate"
+                            class="hijri-cal-wrapper"
+                            [dictionaryData]="errorMessages"
+                            [id]="travelerData.get('travelerId')?.value + 'issueDate'"
+                          >
+                          </app-hijri-comp>
+                          <div class="error-msg md" *ngIf="(submitted || travelerData.get('issueDate')?.touched) && travelerData.get('issueDate')?.errors">
+                            <p>
+                              <span>{{errorMessages['evisaForm.issueDateValidation']}}</span>
+                            </p>
+                          </div>
+                        </div>
+                        <div class="custom-form-item second-type" fxFlex="50" [ngClass]="{ 'is-invalid': (submitted || travelerData.get('expiryDate')?.touched || travelerData.get('expiryDate')?.hasError('expiryDateLessThan6Months')) && travelerData.get('expiryDate')?.errors}"
+                        [id]="travelerData.get('travelerId')?.value + 'expiryDate'">
+                          <app-hijri-comp
+                            [fieldId]="'expiry-date'"
+                            [fieldLabel]="rendering?.fields?.expiryDateLabel?.value"
+                            [setFormGroupName]="travelerData"
+                            [setFormControlName]="'expiryDate'"
+                            [startDate]="minExpiryDate"
+                            class="hijri-cal-wrapper"
+                            [dictionaryData]="errorMessages"
+                            [id]="travelerData.get('travelerId')?.value + 'expiryDate'"
+                          >
+                          </app-hijri-comp>
+                          <div class="error-msg md" *ngIf="(submitted || travelerData.get('expiryDate')?.touched) && (travelerData.get('expiryDate')?.errors && !travelerData.get('expiryDate')?.hasError('expiryDateLessThan6Months'))">
+                            <p>
+                              <span>{{errorMessages['expiryDate']}}</span>
+                            </p>
+                          </div>
+                          <div class="error-msg md" *ngIf="(!travelerData.get('expiryDate')?.hasError('required') && travelerData.get('expiryDate')?.hasError('expiryDateLessThan6Months'))" >
+                            <p>
+                              <span>{{errorMessages['evisaForm.passportValidation']}}</span>
+                            </p>
+                          </div>
+                        </div>
+                      </div>

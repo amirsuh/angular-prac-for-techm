@@ -1,0 +1,123 @@
+//@import "./fonts.scss";
+:root{
+  --baseFontSaudia:  "Saudia Sans", arial, sans-serif;
+  --baseFontMediumSaudia:  "Saudia Sans", arial, sans-serif; //fw-600
+  --baseFontSemiBoldSaudia: "Saudia Sans", arial, sans-serif; //fw-600
+  --baseFontBoldSaudia: "Saudia Sans", arial, sans-serif; //fw-700
+  --baseFontPortada: "Portada AR Avar", arial, sans-serif; //fw-400
+  --baseFontMediumPortada: "Portada AR Avar", arial, sans-serif; //fw-500
+  --baseFontSemiBoldPortada: "Portada AR Avar", arial, sans-serif; //fw-600
+  --baseFontBoldPortada:  "Portada AR Avar", arial, sans-serif; //fw-700
+}
+
+$baseFont:  var(--baseFontSaudia);
+$baseFontMedium:  var(--baseFontMediumSaudia);
+$baseFontSemiBold: var(--baseFontSemiBoldSaudia);
+$baseFontBold: var(--baseFontBoldSaudia);
+
+.urduLang{
+  --baseFontSaudia: var(--baseFontPortada);
+  --baseFontMediumSaudia:  var(--baseFontPortada);
+  --baseFontSemiBoldSaudia: var(--baseFontSemiBoldPortada);
+  --baseFontBoldSaudia: var(--baseFontBoldPortada);
+}
+
+$baseFontSymbolOutlined: "Material Symbols Outlined";
+$baseFontIcon: 'Material Icons';
+$baseFontIconOutlined: 'Material Icons Outlined';
+$baseFontSize: 16px;
+$secondaryFontSize: 14px;
+$row-gutter-spacing-xxl: 7.5rem; //120px
+$row-gutter-spacing-xl: 6.25rem; //100px
+$row-gutter-spacing-lg: 5rem; //80px
+$row-gutter-spacing-md: 4rem; //64px
+$row-gutter-spacing-sm: 3.5rem; //56px
+$row-gutter-spacing-xs: 2.5rem; //40px
+$row-gutter-spacing-60: 3.75rem; //60px
+
+$gutter-spacing-xl: 2rem; //32px
+$gutter-spacing-lg: 1.5rem; //24px
+$gutter-spacing-slg: 1.25rem; //20px
+$gutter-spacing-lmd: 1.125rem; //18px
+$gutter-spacing-md: 1rem; //16px
+$gutter-spacing-sm: 0.75rem; //12px
+$gutter-spacing-xs: 0.5rem; //8px
+$gutter-spacing-xxs: 0.25rem; //4px
+$gutter-spacing-10: 0.625rem; //10px
+$gutter-spacing-6: 0.375rem; //6px
+$borderRadius-xs: 0.125rem; //2px-Saudia Rebrand Border Radius for Button (2px), Components(4px), images(4px), cards(4px).
+$borderRadius-sm: 0.125rem; //2px-Saudia Rebrand Border Radius for Button (2px), Components(4px), images(4px), cards(4px).
+$borderRadius: 0.25rem; //4px-Saudia Rebrand Border Radius for Button (2px), Components(4px), images(4px), cards(4px).
+$borderRadius-lg: 0.25rem; //4px-Saudia Rebrand Border Radius for Button (2px), Components(4px), images(4px), cards(4px).
+$borderRadius-8: 0.5rem;
+$borderRadius-10: 0.625rem;
+$borderRadius-12: 0.75rem;
+$borderRadius-20: 0.25rem; //4px-Saudia Rebrand Border Radius for Button (2px), Components(4px), images(4px), cards(4px).
+$borderRadius-48: 3rem; //48px
+$borderRadius-40: 2.5rem; //40px
+$borderRadius-60: 3.75rem; //60px
+$borderRadius-100: 6.25rem; //100px
+$borderRadius-lg-btn: $borderRadius-sm; // Saudia Rebrand Border Radius for Button (2px), Components(4px), images(4px), cards(4px).
+$borderRadius-sm-btn: $borderRadius-sm;
+$searchboxborderRadius: $borderRadius-sm;
+$borderRadius-cards: 0.75rem;
+
+
+%booking-card-curv {
+  &:before,
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: -0.6px;
+    left: -0.55rem;
+    height: 10px;
+    width: 11px;
+    background-size: cover;
+  }
+
+  &:after {
+    left: calc(100% - 2.75px);
+  }
+}
+
+// Secondary button
+%secondary-button{
+  color: var(--defaultButtonPressColor);
+  border: var(--defaultButtonFocusColor) 1px solid;
+  &:hover{
+    background-color: var(--secondaryButtonPressColor);
+  }
+  &:focus, &:active{
+    border: var(--light) 1px solid;
+  }
+}
+// Tertiary Button converted to Secondary button in Rebranding
+%tertiary-to-secondary-button{
+  background-color: var(--secondaryButtonColor) ;
+  border-color: var(--defaultButtonFocusColor) ;
+  color: var(--defaultButtonHoverColor);
+  &:hover {
+      background-color: var(--secondaryButtonPressColor);
+      border-color: var(--secondaryButtonHoverColor);
+  }
+  &:focus {
+      background-color: var(--secondaryButtonColor);
+      border-color: var(--light);
+  }
+  &:active {
+      background-color: var(--secondaryButtonPressColor);
+      color: var(--secondaryButtonPressColor);
+  }
+}
+
+// Mat dialog secondary cancel button accessibility focus changes
+.setFocusOnSecondaryBtn .custom-dialog {
+  .button--secondary{
+    &:focus {
+      background-color: var(--secondaryButtonColor) !important;
+      border-color: var(--light) !important;
+      box-shadow: 0 0 12px var(--defaultButtonShadowColor) !important;
+      outline: none;
+    }
+  }
+}

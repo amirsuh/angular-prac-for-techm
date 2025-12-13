@@ -1,0 +1,57 @@
+<mat-form-field appearance="fill" *ngIf="setFormGroupName" [formGroup]="setFormGroupName" color="primary"
+  [dir]="direction" [ngClass]="{ 'govt-flow custom-combobox lg': isGovtFlowEnabled || isBaggageFlow}"  id="datepickerInput">
+  <mat-label>{{ fieldLabel }}</mat-label>
+  <!-- <input #calenderInput [attr.aria-label]="fieldAriaLabel ? fieldAriaLabel : fieldLabel" matInput [matDatepicker]="fieldId" inputmode="numeric"
+    formControlName="{{ setFormControlName }}" [max]="maxDate" [min]="minDate" [matDatepicker]="matDatepicker"
+    appDatePickerFormat="DD/MM/YYYY" [readonly]="readonly" placeholder="{{dateFormatLabel}}" (blur)="onSelection()"
+    (click)="(!readonly || isGovtFlowEnabled) ? fieldId.open() : ''" appAddSlash
+    data-cs-encrypt/> -->
+
+
+    <input
+  #calenderInput
+  [attr.aria-label]="fieldAriaLabel ? fieldAriaLabel : fieldLabel"
+  matInput
+  [matDatepicker]="fieldId"
+  inputmode="numeric"
+  [formControlName]="setFormControlName"
+  [max]="maxDate"
+  [min]="minDate"
+  appDatePickerFormat="DD/MM/YYYY"
+  [readonly]="readonly"
+  [placeholder]="dateFormatLabel"
+  (blur)="onSelection()"
+  (click)="(!readonly || isGovtFlowEnabled) ? fieldId.open() : ''"
+  appAddSlash
+  data-cs-encrypt
+/>
+
+
+
+ <!-- <mat-icon matSuffix>
+    <span class="material-symbols-outlined arrow-down-icon">
+      {{ calendarToday }}
+    </span>
+  </mat-icon> -->
+  <mat-datepicker-toggle matSuffix [for]="fieldId" aria-hidden="false" [ngClass]="readonly && !isGovtFlowEnabled ? 'readOnly': ''">
+    <mat-icon matSuffix matDatepickerToggleIcon class="hijri-calender-icon">
+      {{ calendarToday }}
+    </mat-icon>
+  </mat-datepicker-toggle>
+  <mat-datepicker [startView]="startViewValue ? startViewValue : 'month'" #fieldId [touchUi]="isMobile" (monthSelected)="changeHandler($event)"
+    (yearSelected)="changeHandler($event)" [dateClass]="dateFilter" (opened)="openCalendar()"
+    (ngModelChange)="closeCalendar($event)" (closed)="calenderInput.blur(); onClose();" [panelClass]="
+    isGovtFlowEnabled ? 'hijri-datepicker-container hijri-datepicker-enabled govt-flow' :
+    toggleHijriflag ? 'hijri-datepicker-container hijri-datepicker-enabled' :
+    'hijri-datepicker-container'" data-cs-encrypt>
+    <mat-datepicker-actions #datepickerFooter ngDefaultControl panelClass="datepicker-container-actions">
+      <mat-slide-toggle *ngIf="(isMMBHijriCalOption?.mmbPage ? isMMBHijriCalOption?.showHijriCal : showHijriCalOption) && !isGovtFlowEnabled" [checked]="toggleHijriflag" (toggleChange)="toggleCalender()"
+>{{dictionaryData?.hijriiCalendar }}</mat-slide-toggle>
+      <button mat-button class="confirm" matDatepickerApply (click)="onSelection('confirm');">
+        {{ dictionaryData?.confirm }}
+      </button>
+    </mat-datepicker-actions>
+  </mat-datepicker>
+
+
+</mat-form-field>
