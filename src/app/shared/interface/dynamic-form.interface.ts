@@ -7,6 +7,7 @@ export interface IForm{
 
 export interface IFormControls {
   name: string
+  id:number
   label: string
   value?: string
   options?:IOptions[],

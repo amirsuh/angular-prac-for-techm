@@ -7,6 +7,7 @@ export const sampleForm = {
     {
     name: 'firstName',
     label: 'First Name',
+    id:0,
     value: '',
     palceholder: 'Enter name',
     class: 'col-md-4',
@@ -19,6 +20,7 @@ export const sampleForm = {
     {
       name: 'lastName',
       label: 'Last Name',
+      id:1,
       value: '',
       class: 'col-md-4',
       type: 'text',
@@ -30,6 +32,7 @@ export const sampleForm = {
     {
       name: 'email',
       label: 'Email',
+      id:3,
       value: '',
       class: 'col-md-4',
       type: 'text',

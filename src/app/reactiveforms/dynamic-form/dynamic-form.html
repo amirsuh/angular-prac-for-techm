@@ -58,22 +58,22 @@
   </thead>
   <tbody>
 
-    @for(formdata of submitForm;track formdata){
+    <!-- @for(formdata of submitForm;track formdata){ -->
     <!-- *ngFor="let formdata of submitForm;" -->
-    <tr>
-      <td>{{ formdata.firstName }}</td>
-      <td>{{ formdata.lastName }}</td>
+    <tr  *ngFor="let formdata of submitForm;let i = index">
+      <td>{{ i }}</td>
+      <td>{{ formdata.firstName + formdata.lastName }}</td>
       <td>{{ formdata.email }}</td>
       <td>
         <button class="btn btn-sm btn-primary me-2" (click)="editUser(formdata)">
           Edit
         </button>
-        <button class="btn btn-sm btn-danger" (click)="deleteUser(formdata)">
+        <button class="btn btn-sm btn-danger" (click)="deleteUser(formdata,i)">
           Delete
         </button>
       </td>
     </tr>
-    }
+    <!-- } -->
 
   </tbody>
 </table>

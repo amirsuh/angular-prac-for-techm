@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { IForm, IFormControls } from '../../shared/interface/dynamic-form.interface';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './dynamic-form.html',
   styleUrl: './dynamic-form.scss',
+  encapsulation:ViewEncapsulation.None
 })
 export class DynamicForm implements OnInit {
   @Input() form!: IForm;
@@ -16,6 +17,7 @@ export class DynamicForm implements OnInit {
   isSubmitted: boolean = false;
   submitForm:any =[]
   editFlag:boolean=false
+  idforUpdorDel =0
   constructor() {
     // this.dynamicForm = this.fb.group({}, { updateOn: 'submit' });
   }
@@ -23,6 +25,7 @@ export class DynamicForm implements OnInit {
   ngOnInit(): void {
     if (this.form.formControls) {
       const formGroup:any = {}
+      formGroup['id'] = this.idforUpdorDel;
       this.form.formControls.forEach((controls)=>{
       const controlValidators:any=[]
       if(controls.validators){
@@ -44,7 +47,12 @@ onSubmit(){
   this.isSubmitted=true
   console.log(this.dynamicForm.value)
   if(this.dynamicForm.valid){
-    this.submitForm.push(this.dynamicForm.value)
+    const newUser = {
+    id: this.idforUpdorDel++,       // auto‑increment ID
+    ...this.dynamicForm.value
+  };
+
+    this.submitForm.push(newUser)
     this.dynamicForm.reset()
     this.isSubmitted=false
   }
@@ -67,7 +75,7 @@ onSubmit(){
     this.dynamicForm.setValue(user);
   }
   }
-  deleteUser(user:any){
+  deleteUser(user:any,i:number){
 
   }
   resetForm(){
@@ -76,7 +84,11 @@ onSubmit(){
     this.isSubmitted=false
   }
   updateRecord(){
+     if(this.submitForm){
+      // this.submitForm.forEach((data)=>{
 
+      // })
+     }
   }
 
 }
