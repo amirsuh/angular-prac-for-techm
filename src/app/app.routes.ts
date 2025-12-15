@@ -9,6 +9,8 @@ import { Compneedtooptimized } from './pages/rxjs/compneedtooptimized/compneedto
 import { Main } from './pages/ngrx/main/main';
 import { Hparent } from './pages/lifecycle-hooks/new-hook-eg/hparent/hparent';
 import { CallHijri } from './pages/hijri/call-hijri/call-hijri';
+import { DynamicForm } from './reactiveforms/dynamic-form/dynamic-form';
+import { Maincomponent } from './reactiveforms/maincomponent/maincomponent';
 
 export const routes: Routes = [
   {
@@ -23,6 +25,11 @@ export const routes: Routes = [
     path: 'ngrx',
     component: Main,
   },
+   {
+    path: 'reactiveforms',
+    component: Maincomponent,
+  },
+
   {
     path: 'rxjs',
     component: Debounceusingrxjs,
