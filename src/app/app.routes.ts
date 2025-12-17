@@ -13,6 +13,7 @@ import { DynamicForm } from './reactiveforms/dynamic-form/dynamic-form';
 import { Maincomponent } from './reactiveforms/maincomponent/maincomponent';
 import { Closures } from './pages/js-in-angular/closures/closures';
 import { Jsonplaceholderapi } from './pages/js-in-angular/jsonplaceholderapi/jsonplaceholderapi';
+import { LearnTs } from './pages/js-in-angular/learn-ts/learn-ts';
 
 export const routes: Routes = [
   {
@@ -63,7 +64,7 @@ export const routes: Routes = [
   },
   {
     path: 'closures',
-    component: Jsonplaceholderapi,
+    component: LearnTs,
 
   },
 
