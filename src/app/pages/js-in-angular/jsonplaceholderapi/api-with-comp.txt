@@ -1,0 +1,783 @@
+// ============================================
+// FREE PUBLIC APIs FOR ANGULAR PRACTICE
+// ============================================
+
+// ============================================
+// 1. JSONPLACEHOLDER API - Fake REST API
+// https://jsonplaceholder.typicode.com
+// ============================================
+
+// Models
+export interface Post {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
+}
+
+export interface User {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+  address: Address;
+  phone: string;
+  website: string;
+  company: Company;
+}
+
+export interface Address {
+  street: string;
+  suite: string;
+  city: string;
+  zipcode: string;
+  geo: { lat: string; lng: string };
+}
+
+export interface Company {
+  name: string;
+  catchPhrase: string;
+  bs: string;
+}
+
+export interface Comment {
+  postId: number;
+  id: number;
+  name: string;
+  email: string;
+  body: string;
+}
+
+// Service
+@Injectable({ providedIn: 'root' })
+export class JsonPlaceholderService {
+  private apiUrl = 'https://jsonplaceholder.typicode.com';
+
+  constructor(private http: HttpClient) {}
+
+  // Posts
+  getPosts(): Observable<Post[]> {
+    return this.http.get<Post[]>(`${this.apiUrl}/posts`);
+  }
+
+  getPost(id: number): Observable<Post> {
+    return this.http.get<Post>(`${this.apiUrl}/posts/${id}`);
+  }
+
+  createPost(post: Omit<Post, 'id'>): Observable<Post> {
+    return this.http.post<Post>(`${this.apiUrl}/posts`, post);
+  }
+
+  updatePost(post: Post): Observable<Post> {
+    return this.http.put<Post>(`${this.apiUrl}/posts/${post.id}`, post);
+  }
+
+  deletePost(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/posts/${id}`);
+  }
+
+  // Users
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.apiUrl}/users`);
+  }
+
+  getUser(id: number): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/users/${id}`);
+  }
+
+  getUserPosts(userId: number): Observable<Post[]> {
+    return this.http.get<Post[]>(`${this.apiUrl}/posts?userId=${userId}`);
+  }
+
+  // Comments
+  getPostComments(postId: number): Observable<Comment[]> {
+    return this.http.get<Comment[]>(`${this.apiUrl}/posts/${postId}/comments`);
+  }
+}
+
+// Component Example
+@Component({
+  selector: 'app-posts',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  template: `
+    <div class="posts-container">
+      <h2>Posts</h2>
+
+      <div *ngIf="loading">Loading posts...</div>
+      <div *ngIf="error" class="error">{{ error }}</div>
+
+      <div class="post" *ngFor="let post of posts">
+        <h3>{{ post.title }}</h3>
+        <p>{{ post.body }}</p>
+        <button (click)="viewComments(post.id)">View Comments</button>
+        <button (click)="deletePost(post.id)">Delete</button>
+      </div>
+
+      <div *ngIf="selectedPostComments.length > 0">
+        <h3>Comments</h3>
+        <div *ngFor="let comment of selectedPostComments">
+          <strong>{{ comment.name }}</strong> ({{ comment.email }})
+          <p>{{ comment.body }}</p>
+        </div>
+      </div>
+    </div>
+  `
+})
+export class PostsComponent implements OnInit {
+  posts: Post[] = [];
+  selectedPostComments: Comment[] = [];
+  loading = false;
+  error: string | null = null;
+
+  constructor(private jsonPlaceholder: JsonPlaceholderService) {}
+
+  ngOnInit() {
+    this.loadPosts();
+  }
+
+  loadPosts() {
+    this.loading = true;
+    this.jsonPlaceholder.getPosts().subscribe({
+      next: (posts) => {
+        this.posts = posts.slice(0, 10); // First 10 posts
+        this.loading = false;
+      },
+      error: (err) => {
+        this.error = 'Failed to load posts';
+        this.loading = false;
+      }
+    });
+  }
+
+  viewComments(postId: number) {
+    this.jsonPlaceholder.getPostComments(postId).subscribe({
+      next: (comments) => this.selectedPostComments = comments,
+      error: (err) => console.error('Failed to load comments', err)
+    });
+  }
+
+  deletePost(id: number) {
+    this.jsonPlaceholder.deletePost(id).subscribe({
+      next: () => {
+        this.posts = this.posts.filter(p => p.id !== id);
+      },
+      error: (err) => console.error('Failed to delete post', err)
+    });
+  }
+}
+
+// ============================================
+// 2. REQRES API - User Management
+// https://reqres.in
+// ============================================
+
+export interface ReqResUser {
+  id: number;
+  email: string;
+  first_name: string;
+  last_name: string;
+  avatar: string;
+}
+
+export interface ReqResResponse<T> {
+  page: number;
+  per_page: number;
+  total: number;
+  total_pages: number;
+  data: T[];
+}
+
+@Injectable({ providedIn: 'root' })
+export class ReqResService {
+  private apiUrl = 'https://reqres.in/api';
+
+  constructor(private http: HttpClient) {}
+
+  getUsers(page: number = 1): Observable<ReqResResponse<ReqResUser>> {
+    return this.http.get<ReqResResponse<ReqResUser>>(
+      `${this.apiUrl}/users?page=${page}`
+    );
+  }
+
+  getUser(id: number): Observable<{ data: ReqResUser }> {
+    return this.http.get<{ data: ReqResUser }>(`${this.apiUrl}/users/${id}`);
+  }
+
+  createUser(user: { name: string; job: string }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/users`, user);
+  }
+
+  updateUser(id: number, user: { name: string; job: string }): Observable<any> {
+    return this.http.put(`${this.apiUrl}/users/${id}`, user);
+  }
+
+  deleteUser(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/users/${id}`);
+  }
+
+  // Login (fake authentication)
+  login(email: string, password: string): Observable<{ token: string }> {
+    return this.http.post<{ token: string }>(`${this.apiUrl}/login`, {
+      email,
+      password
+    });
+  }
+}
+
+// ============================================
+// 3. REST COUNTRIES API - Country Information
+// https://restcountries.com
+// ============================================
+
+export interface Country {
+  name: {
+    common: string;
+    official: string;
+  };
+  capital: string[];
+  region: string;
+  subregion: string;
+  population: number;
+  area: number;
+  flags: {
+    png: string;
+    svg: string;
+  };
+  currencies: Record<string, { name: string; symbol: string }>;
+  languages: Record<string, string>;
+  timezones: string[];
+  borders?: string[];
+}
+
+@Injectable({ providedIn: 'root' })
+export class CountriesService {
+  private apiUrl = 'https://restcountries.com/v3.1';
+
+  constructor(private http: HttpClient) {}
+
+  getAllCountries(): Observable<Country[]> {
+    return this.http.get<Country[]>(`${this.apiUrl}/all`);
+  }
+
+  getCountryByName(name: string): Observable<Country[]> {
+    return this.http.get<Country[]>(`${this.apiUrl}/name/${name}`);
+  }
+
+  getCountriesByRegion(region: string): Observable<Country[]> {
+    return this.http.get<Country[]>(`${this.apiUrl}/region/${region}`);
+  }
+
+  getCountryByCode(code: string): Observable<Country[]> {
+    return this.http.get<Country[]>(`${this.apiUrl}/alpha/${code}`);
+  }
+}
+
+// Component with Countries API
+@Component({
+  selector: 'app-countries',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  template: `
+    <div class="countries-container">
+      <input
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()"
+        placeholder="Search countries..."
+      />
+
+      <select (change)="onRegionChange($event)">
+        <option value="">All Regions</option>
+        <option value="Africa">Africa</option>
+        <option value="Americas">Americas</option>
+        <option value="Asia">Asia</option>
+        <option value="Europe">Europe</option>
+        <option value="Oceania">Oceania</option>
+      </select>
+
+      <div class="countries-grid">
+        <div class="country-card" *ngFor="let country of filteredCountries">
+          <img [src]="country.flags.png" [alt]="country.name.common" />
+          <h3>{{ country.name.common }}</h3>
+          <p><strong>Capital:</strong> {{ country.capital?.[0] }}</p>
+          <p><strong>Population:</strong> {{ country.population | number }}</p>
+          <p><strong>Region:</strong> {{ country.region }}</p>
+        </div>
+      </div>
+    </div>
+  `
+})
+export class CountriesComponent implements OnInit {
+  countries: Country[] = [];
+  filteredCountries: Country[] = [];
+  searchTerm = '';
+
+  constructor(private countriesService: CountriesService) {}
+
+  ngOnInit() {
+    this.loadCountries();
+  }
+
+  loadCountries() {
+    this.countriesService.getAllCountries().subscribe({
+      next: (countries) => {
+        this.countries = countries;
+        this.filteredCountries = countries;
+      },
+      error: (err) => console.error('Failed to load countries', err)
+    });
+  }
+
+  onSearch() {
+    if (!this.searchTerm) {
+      this.filteredCountries = this.countries;
+      return;
+    }
+
+    this.countriesService.getCountryByName(this.searchTerm).subscribe({
+      next: (countries) => this.filteredCountries = countries,
+      error: (err) => this.filteredCountries = []
+    });
+  }
+
+  onRegionChange(event: Event) {
+    const region = (event.target as HTMLSelectElement).value;
+    if (!region) {
+      this.filteredCountries = this.countries;
+      return;
+    }
+
+    this.countriesService.getCountriesByRegion(region).subscribe({
+      next: (countries) => this.filteredCountries = countries,
+      error: (err) => console.error('Failed to filter by region', err)
+    });
+  }
+}
+
+// ============================================
+// 4. OPEN WEATHER API - Weather Data
+// https://openweathermap.org/api
+// Sign up for free API key
+// ============================================
+
+export interface Weather {
+  coord: { lon: number; lat: number };
+  weather: Array<{
+    id: number;
+    main: string;
+    description: string;
+    icon: string;
+  }>;
+  main: {
+    temp: number;
+    feels_like: number;
+    temp_min: number;
+    temp_max: number;
+    pressure: number;
+    humidity: number;
+  };
+  wind: {
+    speed: number;
+    deg: number;
+  };
+  name: string;
+  sys: {
+    country: string;
+    sunrise: number;
+    sunset: number;
+  };
+}
+
+@Injectable({ providedIn: 'root' })
+export class WeatherService {
+  private apiUrl = 'https://api.openweathermap.org/data/2.5';
+  private apiKey = 'YOUR_API_KEY'; // Get free key from openweathermap.org
+
+  constructor(private http: HttpClient) {}
+
+  getCurrentWeather(city: string): Observable<Weather> {
+    return this.http.get<Weather>(
+      `${this.apiUrl}/weather?q=${city}&appid=${this.apiKey}&units=metric`
+    );
+  }
+
+  getWeatherByCoordinates(lat: number, lon: number): Observable<Weather> {
+    return this.http.get<Weather>(
+      `${this.apiUrl}/weather?lat=${lat}&lon=${lon}&appid=${this.apiKey}&units=metric`
+    );
+  }
+
+  getForecast(city: string): Observable<any> {
+    return this.http.get(
+      `${this.apiUrl}/forecast?q=${city}&appid=${this.apiKey}&units=metric`
+    );
+  }
+}
+
+// ============================================
+// 5. THE MOVIE DATABASE (TMDB) API
+// https://www.themoviedb.org/settings/api
+// Free API key required
+// ============================================
+
+export interface Movie {
+  id: number;
+  title: string;
+  overview: string;
+  poster_path: string;
+  backdrop_path: string;
+  release_date: string;
+  vote_average: number;
+  vote_count: number;
+  popularity: number;
+  genre_ids: number[];
+}
+
+export interface MovieResponse {
+  page: number;
+  results: Movie[];
+  total_pages: number;
+  total_results: number;
+}
+
+@Injectable({ providedIn: 'root' })
+export class MovieService {
+  private apiUrl = 'https://api.themoviedb.org/3';
+  private apiKey = 'YOUR_TMDB_API_KEY';
+  private imageBaseUrl = 'https://image.tmdb.org/t/p/w500';
+
+  constructor(private http: HttpClient) {}
+
+  getPopularMovies(page: number = 1): Observable<MovieResponse> {
+    return this.http.get<MovieResponse>(
+      `${this.apiUrl}/movie/popular?api_key=${this.apiKey}&page=${page}`
+    );
+  }
+
+  getTopRatedMovies(page: number = 1): Observable<MovieResponse> {
+    return this.http.get<MovieResponse>(
+      `${this.apiUrl}/movie/top_rated?api_key=${this.apiKey}&page=${page}`
+    );
+  }
+
+  searchMovies(query: string, page: number = 1): Observable<MovieResponse> {
+    return this.http.get<MovieResponse>(
+      `${this.apiUrl}/search/movie?api_key=${this.apiKey}&query=${query}&page=${page}`
+    );
+  }
+
+  getMovieDetails(id: number): Observable<any> {
+    return this.http.get(
+      `${this.apiUrl}/movie/${id}?api_key=${this.apiKey}`
+    );
+  }
+
+  getImageUrl(path: string): string {
+    return `${this.imageBaseUrl}${path}`;
+  }
+}
+
+// Movie Component
+@Component({
+  selector: 'app-movies',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  template: `
+    <div class="movies-container">
+      <input
+        [(ngModel)]="searchQuery"
+        (input)="onSearch()"
+        placeholder="Search movies..."
+      />
+
+      <div class="movies-grid">
+        <div class="movie-card" *ngFor="let movie of movies">
+          <img [src]="getImageUrl(movie.poster_path)" [alt]="movie.title" />
+          <h3>{{ movie.title }}</h3>
+          <p>Rating: {{ movie.vote_average }}/10</p>
+          <p>{{ movie.overview | slice:0:100 }}...</p>
+          <button (click)="viewDetails(movie.id)">View Details</button>
+        </div>
+      </div>
+    </div>
+  `
+})
+export class MoviesComponent implements OnInit {
+  movies: Movie[] = [];
+  searchQuery = '';
+
+  constructor(private movieService: MovieService) {}
+
+  ngOnInit() {
+    this.loadPopularMovies();
+  }
+
+  loadPopularMovies() {
+    this.movieService.getPopularMovies().subscribe({
+      next: (response) => this.movies = response.results,
+      error: (err) => console.error('Failed to load movies', err)
+    });
+  }
+
+  onSearch() {
+    if (!this.searchQuery) {
+      this.loadPopularMovies();
+      return;
+    }
+
+    this.movieService.searchMovies(this.searchQuery).subscribe({
+      next: (response) => this.movies = response.results,
+      error: (err) => console.error('Search failed', err)
+    });
+  }
+
+  getImageUrl(path: string): string {
+    return this.movieService.getImageUrl(path);
+  }
+
+  viewDetails(id: number) {
+    this.movieService.getMovieDetails(id).subscribe({
+      next: (details) => console.log('Movie details:', details),
+      error: (err) => console.error('Failed to load details', err)
+    });
+  }
+}
+
+// ============================================
+// 6. GITHUB API - Repository and User Data
+// https://docs.github.com/en/rest
+// ============================================
+
+export interface GithubUser {
+  login: string;
+  id: number;
+  avatar_url: string;
+  name: string;
+  bio: string;
+  public_repos: number;
+  followers: number;
+  following: number;
+  created_at: string;
+}
+
+export interface GithubRepo {
+  id: number;
+  name: string;
+  full_name: string;
+  description: string;
+  html_url: string;
+  stargazers_count: number;
+  forks_count: number;
+  language: string;
+  updated_at: string;
+}
+
+@Injectable({ providedIn: 'root' })
+export class GithubService {
+  private apiUrl = 'https://api.github.com';
+
+  constructor(private http: HttpClient) {}
+
+  getUser(username: string): Observable<GithubUser> {
+    return this.http.get<GithubUser>(`${this.apiUrl}/users/${username}`);
+  }
+
+  getUserRepos(username: string): Observable<GithubRepo[]> {
+    return this.http.get<GithubRepo[]>(
+      `${this.apiUrl}/users/${username}/repos?sort=updated`
+    );
+  }
+
+  searchUsers(query: string): Observable<{ items: GithubUser[] }> {
+    return this.http.get<{ items: GithubUser[] }>(
+      `${this.apiUrl}/search/users?q=${query}`
+    );
+  }
+
+  searchRepositories(query: string): Observable<{ items: GithubRepo[] }> {
+    return this.http.get<{ items: GithubRepo[] }>(
+      `${this.apiUrl}/search/repositories?q=${query}&sort=stars`
+    );
+  }
+}
+
+// ============================================
+// 7. COMPLETE INTEGRATION EXAMPLE WITH NGRX
+// ============================================
+
+// State
+export interface PostsState {
+  posts: Post[];
+  users: User[];
+  loading: boolean;
+  error: string | null;
+  selectedPost: Post | null;
+  comments: Comment[];
+}
+
+// Actions
+export const loadPosts = createAction('[Posts] Load Posts');
+export const loadPostsSuccess = createAction(
+  '[Posts] Load Posts Success',
+  props<{ posts: Post[] }>()
+);
+export const loadPostsFailure = createAction(
+  '[Posts] Load Posts Failure',
+  props<{ error: string }>()
+);
+
+export const loadUsers = createAction('[Users] Load Users');
+export const loadUsersSuccess = createAction(
+  '[Users] Load Users Success',
+  props<{ users: User[] }>()
+);
+
+export const selectPost = createAction(
+  '[Posts] Select Post',
+  props<{ post: Post }>()
+);
+
+export const loadComments = createAction(
+  '[Comments] Load Comments',
+  props<{ postId: number }>()
+);
+
+export const loadCommentsSuccess = createAction(
+  '[Comments] Load Comments Success',
+  props<{ comments: Comment[] }>()
+);
+
+// Reducer
+const initialState: PostsState = {
+  posts: [],
+  users: [],
+  loading: false,
+  error: null,
+  selectedPost: null,
+  comments: []
+};
+
+export const postsReducer = createReducer(
+  initialState,
+  on(loadPosts, loadUsers, (state) => ({ ...state, loading: true })),
+  on(loadPostsSuccess, (state, { posts }) => ({
+    ...state,
+    posts,
+    loading: false,
+    error: null
+  })),
+  on(loadPostsFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error
+  })),
+  on(loadUsersSuccess, (state, { users }) => ({
+    ...state,
+    users,
+    loading: false
+  })),
+  on(selectPost, (state, { post }) => ({
+    ...state,
+    selectedPost: post
+  })),
+  on(loadCommentsSuccess, (state, { comments }) => ({
+    ...state,
+    comments
+  }))
+);
+
+// Effects
+@Injectable()
+export class PostsEffects {
+  loadPosts$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadPosts),
+      switchMap(() =>
+        this.jsonPlaceholder.getPosts().pipe(
+          map(posts => loadPostsSuccess({ posts })),
+          catchError(error => of(loadPostsFailure({ error: error.message })))
+        )
+      )
+    )
+  );
+
+  loadUsers$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadUsers),
+      switchMap(() =>
+        this.jsonPlaceholder.getUsers().pipe(
+          map(users => loadUsersSuccess({ users })),
+          catchError(error => of(loadPostsFailure({ error: error.message })))
+        )
+      )
+    )
+  );
+
+  loadComments$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadComments),
+      switchMap(({ postId }) =>
+        this.jsonPlaceholder.getPostComments(postId).pipe(
+          map(comments => loadCommentsSuccess({ comments })),
+          catchError(error => of(loadPostsFailure({ error: error.message })))
+        )
+      )
+    )
+  );
+
+  constructor(
+    private actions$: Actions,
+    private jsonPlaceholder: JsonPlaceholderService
+  ) {}
+}
+
+// Selectors
+export const selectPostsState = createFeatureSelector<PostsState>('posts');
+
+export const selectAllPosts = createSelector(
+  selectPostsState,
+  state => state.posts
+);
+
+export const selectAllUsers = createSelector(
+  selectPostsState,
+  state => state.users
+);
+
+export const selectPostsWithAuthors = createSelector(
+  selectAllPosts,
+  selectAllUsers,
+  (posts, users) => {
+    return posts.map(post => ({
+      ...post,
+      author: users.find(user => user.id === post.userId)
+    }));
+  }
+);
+
+// ============================================
+// 8. HTTP INTERCEPTOR FOR API KEYS
+// ============================================
+
+@Injectable()
+export class ApiKeyInterceptor implements HttpInterceptor {
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    // Add API key to specific requests
+    if (req.url.includes('openweathermap.org') || req.url.includes('themoviedb.org')) {
+      // API key is already in URL for these services
+      return next.handle(req);
+    }
+
+    // Add Authorization header for GitHub
+    if (req.url.includes('api.github.com')) {
+      const authReq = req.clone({
+        setHeaders: {
+          'Accept': 'application/vnd.github.v3+json'
+        }
+      });
+      return next.handle(authReq);
+    }
+
+    return next.handle(req);
+  }
+}

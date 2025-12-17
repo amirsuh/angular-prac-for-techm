@@ -11,6 +11,8 @@ import { Hparent } from './pages/lifecycle-hooks/new-hook-eg/hparent/hparent';
 import { CallHijri } from './pages/hijri/call-hijri/call-hijri';
 import { DynamicForm } from './reactiveforms/dynamic-form/dynamic-form';
 import { Maincomponent } from './reactiveforms/maincomponent/maincomponent';
+import { Closures } from './pages/js-in-angular/closures/closures';
+import { Jsonplaceholderapi } from './pages/js-in-angular/jsonplaceholderapi/jsonplaceholderapi';
 
 export const routes: Routes = [
   {
@@ -59,6 +61,12 @@ export const routes: Routes = [
     component: Compneedtooptimized,
 
   },
+  {
+    path: 'closures',
+    component: Jsonplaceholderapi,
+
+  },
+
   {
     path: '',
     loadComponent:() => import('./pages/ngrx/admin/admin').then(m=>m.Admin)
