@@ -16,7 +16,6 @@ export class kiranGrocEffects{
       exhaustMap(()=>
         this.kiranagrocService.fetchAllGroceries().pipe(
           map((groceries:any) => {
-            debugger
             return (kiranaGrocAction.loadKiranaGrocerySuccess({payload:groceries}))
           }),
           catchError(() => of(kiranaGrocAction.loadKiranaGroceryFailure()))
