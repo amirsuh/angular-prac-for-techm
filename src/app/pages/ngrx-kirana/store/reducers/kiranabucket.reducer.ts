@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
 import { KiranaBucketModel } from "../../models/kiranabucket.model";
-import { addtoKiranaBucket, removeFromKiranaBucket } from "../actions/kiranagrocery.action";
+import { addtoKiranaBucket, removeFromKiranaBucket } from "../actions/kiranabucket.action";
 
 const initialKiranaBuck:KiranaBucketModel[] =[]
 export const BucketReducer = createReducer(initialKiranaBuck,on(addtoKiranaBucket,(state,action)=>{

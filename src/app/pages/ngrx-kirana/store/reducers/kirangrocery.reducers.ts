@@ -1,85 +1,10 @@
-import { createReducer } from "@ngrx/store"
+import { createReducer, on } from "@ngrx/store"
 import { KiranaGroceryModel } from "../../models/kiranagrocery.model"
+import { kiranaGrocAction } from "../actions/kiranagrocery.action"
 
-const initialKiranaGroc:KiranaGroceryModel[] = [
-  {
-    id: 1,
-    name: 'Basmati Rice',
-    category: 'Rice & Grains',
-    price: 120,
-    unit: 'kg',
-    stock: 50,
-    brand: 'India Gate',
-    isAvailable: true
-  },
-  {
-    id: 2,
-    name: 'Toor Dal',
-    category: 'Pulses',
-    price: 160,
-    unit: 'kg',
-    stock: 30,
-    brand: 'Tata Sampann',
-    isAvailable: true
-  },
-  {
-    id: 3,
-    name: 'Sunflower Oil',
-    category: 'Oil & Ghee',
-    price: 180,
-    unit: 'liter',
-    stock: 20,
-    brand: 'Fortune',
-    isAvailable: true
-  },
-  {
-    id: 4,
-    name: 'Cow Milk',
-    category: 'Dairy',
-    price: 55,
-    unit: 'liter',
-    stock: 15,
-    brand: 'Amul',
-    isAvailable: true
-  },
-  {
-    id: 5,
-    name: 'Onion',
-    category: 'Vegetables',
-    price: 30,
-    unit: 'kg',
-    stock: 40,
-    isAvailable: true
-  },
-  {
-    id: 6,
-    name: 'Apple',
-    category: 'Fruits',
-    price: 150,
-    unit: 'kg',
-    stock: 25,
-    isAvailable: true
-  },
-  {
-    id: 7,
-    name: 'Turmeric Powder',
-    category: 'Spices',
-    price: 45,
-    unit: 'packet',
-    stock: 60,
-    brand: 'Everest',
-    isAvailable: true
-  },
-  {
-    id: 8,
-    name: 'Potato Chips',
-    category: 'Snacks',
-    price: 20,
-    unit: 'packet',
-    stock: 100,
-    brand: 'Lays',
-    isAvailable: false
-  }
-]
-
-export const kiranaGroceryReducer = createReducer(initialKiranaGroc)
+const initialKiranaGroc:KiranaGroceryModel[] = []
+export const kiranaGroceryReducer = createReducer(initialKiranaGroc,on(kiranaGrocAction.loadKiranaGrocerySuccess,(state,action)=>{
+return action.payload
+}),on(kiranaGrocAction.loadKiranaGroceryFailure,(state,action)=>{
+  return []
+}))

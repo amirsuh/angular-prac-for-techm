@@ -8,10 +8,13 @@ import { alertReducer } from './store/alert/alert.reducer';
 import { kiranaGroceryReducer } from './pages/ngrx-kirana/store/reducers/kirangrocery.reducers';
 import {provideStoreDevtools} from '@ngrx/store-devtools'
 import { BucketReducer } from './pages/ngrx-kirana/store/reducers/kiranabucket.reducer';
+import { provideEffects } from '@ngrx/effects';
+import { kiranGrocEffects } from './pages/ngrx-kirana/store/effects/kiranagrocery.effect';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
+    provideEffects(kiranGrocEffects),
     provideRouter(routes),provideStore({ count: counterReducer ,alert: alertReducer,kiranaGorcery:kiranaGroceryReducer,kiranaBucket:BucketReducer}),provideStoreDevtools({
       maxAge: 25, // Retains last 25 states
       logOnly: !isDevMode(), // Restrict extension to log-only mode

@@ -6,7 +6,7 @@ import { KiranaGroceryModel } from '../../models/kiranagrocery.model';
 import {
   addtoKiranaBucket,
   removeFromKiranaBucket,
-} from '../../store/actions/kiranagrocery.action';
+} from '../../store/actions/kiranabucket.action';
 import { selectKiranaGroc, selectKiranaGrocByTpe } from '../../store/selector/kiranaGroc.selector';
 
 @Component({
