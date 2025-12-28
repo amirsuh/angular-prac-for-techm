@@ -1,0 +1,21 @@
+
+
+    .gradient-header {
+      background: linear-gradient(90deg, #ff758c, #ff7eb3);
+      color: white;
+      padding: 10px;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .selected-box {
+      background: linear-gradient(135deg, #43cea2, #185a9d);
+      color: white;
+      border-radius: 12px;
+      padding: 30px;
+      text-align: center;
+      font-size: 1.2rem;
+      min-height: 150px;
+    }

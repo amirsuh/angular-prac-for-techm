@@ -14,9 +14,20 @@
           <a class="nav-link " aria-current="page" routerLinkActive="active" routerLink="/hijri">hijri</a>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" routerLink="/ngrx">ngrx</a>
+        <!-- <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="/ngrx"></a>
+        </li> -->
+          <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle"  id="navbarDropdowndomrx" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            NGRX
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdowndomrx">
+            <li><a class="dropdown-item" routerLinkActive="active" routerLink="/ngrx">ngrx</a></li>
+            <li><a class="dropdown-item" routerLinkActive="active" routerLink="/ngrx-real">ngrx real</a></li>
+          </ul>
         </li>
+
         <li class="nav-item dropdown">
           <!-- <a class="nav-link" routerLinkActive="active" routerLink="/rxjs">RXJS</a> -->
           <a class="nav-link dropdown-toggle"  id="navbarDropdowndomrx" role="button" data-bs-toggle="dropdown"

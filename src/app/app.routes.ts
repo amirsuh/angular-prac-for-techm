@@ -29,6 +29,12 @@ export const routes: Routes = [
     path: 'ngrx',
     component: Main,
   },
+  {
+    path:'ngrx-real',
+    loadComponent(){
+      return import('./pages/ngrx-kirana/main-comp/main-comp').then(c=>c.MainComp)
+    }
+  },
    {
     path: 'reactiveforms',
     component: Maincomponent,

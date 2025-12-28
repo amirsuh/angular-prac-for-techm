@@ -1,0 +1,34 @@
+<!-- LEFT COMPONENT -->
+
+<div class="gradient-header">Choose an Item</div>
+
+<!-- Dropdown -->
+<select class="form-select mb-3" id="itemSelect">
+  <option value="">Select from dropdown</option>
+  <option value="Apple">Apple</option>
+  <option value="Banana">Banana</option>
+  <option value="Orange">Orange</option>
+</select>
+
+<!-- List -->
+<ul class="list-group">
+  @for(kirgroc of kiranaGroceyList$ | async;track kirgroc.id){
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+     <button class="btn btn-danger btn-sm qty-btn" (click)="decrement(kirgroc)">−</button>
+    {{kirgroc.name}}
+    <div>
+
+      <!-- <span class="mx-2" id="qty-Banana">0</span> -->
+      <button class="btn btn-success btn-sm qty-btn" (click)="increment(kirgroc)">+</button>
+    </div>
+  </li>
+  }@empty {
+    <span>...Loading</span>
+  }
+  <!-- <button class="btn btn-danger btn-sm qty-btn" (click)="increment(kirgroc)">−</button>
+            <li class="list-group-item list-group-item-action"
+                >{{kirgroc.name}}</li>
+            <button class="btn btn-danger btn-sm qty-btn" (click)="decrement(kirgroc)">+</button> -->
+
+
+</ul>
