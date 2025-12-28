@@ -7,6 +7,7 @@ import {
   addtoKiranaBucket,
   removeFromKiranaBucket,
 } from '../../store/actions/kiranagrocery.action';
+import { selectKiranaGroc, selectKiranaGrocByTpe } from '../../store/selector/kiranaGroc.selector';
 
 @Component({
   selector: 'app-kirana-grocery',
@@ -16,8 +17,10 @@ import {
 })
 export class KiranaGrocery {
   kiranaGroceyList$?: Observable<KiranaGroceryModel[]>;
+  filteredkiranaGroceyList$?: Observable<KiranaGroceryModel[]>;
+  filterData = ['Rice & Grains','Pulses','Oil & Ghee','Dairy','Vegetables','Fruits','Spices','Snacks']
   constructor(private store: Store<{ kiranaGorcery: KiranaGroceryModel[] }>) {
-    this.kiranaGroceyList$ = store.select('kiranaGorcery');
+    this.kiranaGroceyList$ = store.select(selectKiranaGroc);
   }
 
   increment(data: KiranaGroceryModel) {
@@ -41,5 +44,11 @@ export class KiranaGrocery {
     };
 
     this.store.dispatch(removeFromKiranaBucket({ payload }));
+  }
+  onTypeChanged(event:Event){
+    const elem = (event.target as HTMLSelectElement).value
+     if(elem) this.filteredkiranaGroceyList$ = this.store.select(selectKiranaGrocByTpe(elem))
+    else this.filteredkiranaGroceyList$=undefined
+    // this.store.select(selectKiranaGrocByTpe(elem))
   }
 }

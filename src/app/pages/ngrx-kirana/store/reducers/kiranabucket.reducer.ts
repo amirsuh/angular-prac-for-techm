@@ -12,7 +12,7 @@ export const BucketReducer = createReducer(initialKiranaBuck,on(addtoKiranaBucke
   }
 }),on(removeFromKiranaBucket,(state,action)=>{
   const isExist = state.find(item=>item.id===action.payload.id)
-  if(isExist){
+  if(isExist && isExist.quantity>1){
    return state.map(mItem=>mItem.id === action.payload.id ? {...mItem,quantity:mItem.quantity - 1}:mItem)
   }else{
      return state.filter(item=>item.id!==action.payload.id)

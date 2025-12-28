@@ -1,6 +1,9 @@
-        <!-- RIGHT COMPONENT -->
-          <div class="gradient-header">Selected Item</div>
+<!-- RIGHT COMPONENT -->
+<div class="gradient-header">Selected Item</div>
 
-          <div class="selected-box" id="displayBox">
-            No item selected
-          </div>
+<div class="selected-box" id="displayBox">
+  @for(item of kiranaBucketData$ | async; track item.id){
+  <li class="bucket-item">{{item.name}} x {{item.quantity}}</li>
+  }
+  <!-- No item selected -->
+</div>

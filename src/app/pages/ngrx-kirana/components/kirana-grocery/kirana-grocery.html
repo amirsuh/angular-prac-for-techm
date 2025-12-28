@@ -3,18 +3,19 @@
 <div class="gradient-header">Choose an Item</div>
 
 <!-- Dropdown -->
-<select class="form-select mb-3" id="itemSelect">
+<select class="form-select mb-3" id="itemSelect" (change)="onTypeChanged($event)">
   <option value="">Select from dropdown</option>
-  <option value="Apple">Apple</option>
-  <option value="Banana">Banana</option>
-  <option value="Orange">Orange</option>
+  @for (item of filterData; track $index) {
+  <option [value]="item">{{item}}</option>
+  }
+
 </select>
 
 <!-- List -->
 <ul class="list-group">
-  @for(kirgroc of kiranaGroceyList$ | async;track kirgroc.id){
+  @for(kirgroc of (filteredkiranaGroceyList$ | async) ?? (kiranaGroceyList$ | async);track kirgroc.id){
   <li class="list-group-item d-flex justify-content-between align-items-center">
-     <button class="btn btn-danger btn-sm qty-btn" (click)="decrement(kirgroc)">−</button>
+    <button class="btn btn-danger btn-sm qty-btn" (click)="decrement(kirgroc)">−</button>
     {{kirgroc.name}}
     <div>
 
@@ -23,7 +24,7 @@
     </div>
   </li>
   }@empty {
-    <span>...Loading</span>
+  <span>...Loading</span>
   }
   <!-- <button class="btn btn-danger btn-sm qty-btn" (click)="increment(kirgroc)">−</button>
             <li class="list-group-item list-group-item-action"
