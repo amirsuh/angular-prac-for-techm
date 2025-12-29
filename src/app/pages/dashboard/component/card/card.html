@@ -1,0 +1,10 @@
+<article class="card">
+    <header class="card-header" (click)="toggleCollapse()">
+      <h2>{{ title() }}</h2>
+    </header>
+    @if (!isCollapsed()) {
+      <div class="card-body">
+        <ng-content />
+      </div>
+    }
+  </article>
